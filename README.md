@@ -9,6 +9,7 @@ Execute the following commands inside the repository
 
 Add the bot secret to your environment variables LOLBOT_SECRET_ID.
 
-Run:
+# Run:
+Execute the following commands inside the repository
 - pipenv shell
 - python bot.py
