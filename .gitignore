@@ -1,0 +1,7 @@
+**/__pycache__
+**/.vscode
+**/secrets
+discord.log
+stats.db
+**/.DS_Store
+**/.idea
