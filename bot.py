@@ -4,6 +4,7 @@ import logging
 import asyncio
 import statistacs
 from discord.ext import commands
+from commands.voice import Voice
 
 # SETUP!
 logger = logging.getLogger("discord")
@@ -95,5 +96,6 @@ async def stats(ctx, *args):
         message += " - **" + str(row[0]) + "**: " + str(row[1]) + "\n"
     return await ctx.send(message)
 
+bot.add_cog(Voice(bot))
 # Turn on the bot
 bot.run(os.getenv("LOLBOT_SECRET_ID"))
