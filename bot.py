@@ -15,8 +15,6 @@ logger.addHandler(handler)
 conn = statistacs.create_connection("./stats.db")
 bot = commands.Bot(command_prefix='$')
 
-allowed_to_play = True
-
 # Does this function before each command, stores command for stats
 @bot.before_invoke
 async def common(ctx):
@@ -27,7 +25,7 @@ async def common(ctx):
     else:
         target = None
     invocation = (command, invoker, target)
-    statistacs.add_invocation(conn, invocation)
+    #statistacs.add_invocation(conn, invocation)
 
 # When the bot is online, this will be executed
 @bot.event

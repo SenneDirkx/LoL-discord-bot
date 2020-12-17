@@ -5,6 +5,25 @@ import asyncio
 class Voice(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
+        self.allowed_to_play = True
+        
+    
+    # When a user joins a voice channel
+    @commands.Cog.listener()
+    async def on_voice_state_update(self, member, before, after):
+        if member.id == 235088799074484224:
+            return
+        if before.channel is None and after.channel is not None:
+            try:
+                voice_client = await after.channel.connect()
+            except:
+                voice_client = self.bot.voice_clients[0]
+            await self.bot.wait_until_ready()
+            if member.id == 365553944111611906: # matthias
+                await self.play_audio_file(voice_client, "powerspiku.mp3", None)
+            else:
+                await self.play_audio_file(voice_client, "whatspoppin.mp3", None)
+            await voice_client.disconnect()
     
     # Mute everyone in the voice channel you are in
     @commands.command()
@@ -63,36 +82,34 @@ class Voice(commands.Cog):
         except:
             return await ctx.send("Bro, ben niet eens aant praten?")
         await self.bot.wait_until_ready()
-        global allowed_to_play
-        allowed_to_play = False
+        self.allowed_to_play = False
         message = "Allé, ik zal zwijgen :/"
         return await ctx.channel.send(message)
 
     # Function that plays a certain sound in a voice channel
     async def play_audio_file(self, voice_client, filename, name):
-        global allowed_to_play
         await self.bot.wait_until_ready()
         if filename == "./faker.mp3" and name is not None:
-            voice_client.play(discord.FFmpegPCMAudio(executable="/Applications/ffmpeg", source="../sounds/"+"fakerP1.mp3"))
-            while voice_client.is_playing() and allowed_to_play:
+            voice_client.play(discord.FFmpegPCMAudio(executable="/Applications/ffmpeg", source="./sounds/"+"fakerP1.mp3"))
+            while voice_client.is_playing() and self.allowed_to_play:
                 await asyncio.sleep(0.2)
-            voice_client.play(discord.FFmpegPCMAudio(executable="/Applications/ffmpeg", source="../sounds/"+name))
-            while voice_client.is_playing() and allowed_to_play:
+            voice_client.play(discord.FFmpegPCMAudio(executable="/Applications/ffmpeg", source="./sounds/"+name))
+            while voice_client.is_playing() and self.allowed_to_play:
                 await asyncio.sleep(0.2)
-            voice_client.play(discord.FFmpegPCMAudio(executable="/Applications/ffmpeg", source="../sounds/"+"fakerP2.mp3"))
-            while voice_client.is_playing() and allowed_to_play:
+            voice_client.play(discord.FFmpegPCMAudio(executable="/Applications/ffmpeg", source="./sounds/"+"fakerP2.mp3"))
+            while voice_client.is_playing() and self.allowed_to_play:
                 await asyncio.sleep(0.2)
             return
-        voice_client.play(discord.FFmpegPCMAudio(executable="/Applications/ffmpeg", source="../sounds/"+filename))
+        voice_client.play(discord.FFmpegPCMAudio(executable="/Applications/ffmpeg", source="./sounds/"+filename))
         await self.bot.wait_until_ready()
-        while voice_client.is_playing() and allowed_to_play:
+        while voice_client.is_playing() and self.allowed_to_play:
             await asyncio.sleep(0.2)
-        if name is not None and allowed_to_play:
-            voice_client.play(discord.FFmpegPCMAudio(executable="/Applications/ffmpeg", source="../sounds/"+name))
+        if name is not None and self.allowed_to_play:
+            voice_client.play(discord.FFmpegPCMAudio(executable="/Applications/ffmpeg", source="./sounds/"+name))
             await self.bot.wait_until_ready()
-            while voice_client.is_playing() and allowed_to_play:
+            while voice_client.is_playing() and self.allowed_to_play:
                 await asyncio.sleep(0.2)
-        allowed_to_play = True
+        self.allowed_to_play = True
     
     # make the bot say something in voice
     @commands.command()
@@ -111,7 +128,8 @@ class Voice(commands.Cog):
             "xpeke": "xpeke.mp3",
             "disrespect": "disrespect.mp3",
             "ahhh": "ahhh.mp3",
-            "hooo": "hooo.mp3"
+            "hooo": "hooo.mp3",
+            "whatspoppin": "whatspoppin.mp3"
         }
         if len(args) == 0:
             message = "Dit zijn de available sounds: \n"
