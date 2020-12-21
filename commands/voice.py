@@ -90,22 +90,22 @@ class Voice(commands.Cog):
     async def play_audio_file(self, voice_client, filename, name):
         await self.bot.wait_until_ready()
         if filename == "./faker.mp3" and name is not None:
-            voice_client.play(discord.FFmpegPCMAudio(executable="/Applications/ffmpeg", source="./sounds/"+"fakerP1.mp3"))
+            voice_client.play(discord.FFmpegPCMAudio(source="./sounds/"+"fakerP1.mp3"))
             while voice_client.is_playing() and self.allowed_to_play:
                 await asyncio.sleep(0.2)
-            voice_client.play(discord.FFmpegPCMAudio(executable="/Applications/ffmpeg", source="./sounds/"+name))
+            voice_client.play(discord.FFmpegPCMAudio(source="./sounds/"+name))
             while voice_client.is_playing() and self.allowed_to_play:
                 await asyncio.sleep(0.2)
-            voice_client.play(discord.FFmpegPCMAudio(executable="/Applications/ffmpeg", source="./sounds/"+"fakerP2.mp3"))
+            voice_client.play(discord.FFmpegPCMAudio(source="./sounds/"+"fakerP2.mp3"))
             while voice_client.is_playing() and self.allowed_to_play:
                 await asyncio.sleep(0.2)
             return
-        voice_client.play(discord.FFmpegPCMAudio(executable="/Applications/ffmpeg", source="./sounds/"+filename))
+        voice_client.play(discord.FFmpegPCMAudio(source="./sounds/"+filename))
         await self.bot.wait_until_ready()
         while voice_client.is_playing() and self.allowed_to_play:
             await asyncio.sleep(0.2)
         if name is not None and self.allowed_to_play:
-            voice_client.play(discord.FFmpegPCMAudio(executable="/Applications/ffmpeg", source="./sounds/"+name))
+            voice_client.play(discord.FFmpegPCMAudio(source="./sounds/"+name))
             await self.bot.wait_until_ready()
             while voice_client.is_playing() and self.allowed_to_play:
                 await asyncio.sleep(0.2)
