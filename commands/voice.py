@@ -11,7 +11,7 @@ class Voice(commands.Cog):
     # When a user joins a voice channel
     @commands.Cog.listener()
     async def on_voice_state_update(self, member, before, after):
-        if member.id == 235088799074484224:
+        if member.id == 235088799074484224 or member.id == 631488152162402324 or member.id == 774686931858096149:
             return
         if before.channel is None and after.channel is not None:
             try:
